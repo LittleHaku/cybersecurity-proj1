@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>My Quizzes</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Created</th>
+            <th>Owner</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for quiz in quizzes %}
+        <tr>
+            <td>{{ quiz.title }}</td>
+            <td>{{ quiz.created_at }}</td>
+            <td>{{ quiz.owner }}</td>
+            <td><a href="{% url 'quiz_detail' quiz.id %}">View</a></td>
+            <td>
+                <form action="{% url 'quiz_delete' quiz.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">You haven't created any quizzes yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'quiz_create' %}">Create New Quiz</a>
+{% endblock %}

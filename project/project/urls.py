@@ -16,7 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from quizzapp.views import QuizListView, LoginView, RegisterView, LogoutView
+from quizzapp.views import (
+    QuizListView,
+    LoginView,
+    RegisterView,
+    LogoutView,
+    MyQuizListView,
+    QuizCreateView,
+    QuizDeleteView,
+    QuizDetailView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -25,4 +34,8 @@ urlpatterns = [
     path("login/", LoginView, name="login"),
     path("register/", RegisterView, name="register"),
     path("logout/", LogoutView, name="logout"),
+    path("myquizzes/", MyQuizListView, name="myquizzes"),
+    path("quiz/create/", QuizCreateView, name="quiz_create"),
+    path("quiz/<int:pk>/delete/", QuizDeleteView, name="quiz_delete"),
+    path("quiz/<int:pk>/", QuizDetailView, name="quiz_detail"),
 ]

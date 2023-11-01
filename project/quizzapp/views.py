@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 from .models import Quiz
 from quizzapp.models import CustomUser
 from django.contrib.auth import get_user_model
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, QuizForm
 
 
 # Create your views here.
@@ -44,6 +44,37 @@ def LoginView(request):
 def LogoutView(request):
     logout(request)
     return redirect("login")
+
+
+# Quiz delete
+@login_required
+def QuizDeleteView(request, pk):
+    quiz = Quiz.objects.get(id=pk)
+    if request.user == quiz.owner:
+        quiz.delete()
+    return redirect("myquizzes")
+
+
+# Quiz create
+@login_required
+def QuizCreateView(request):
+    if request.method == "POST":
+        form = QuizForm(request.POST)
+        if form.is_valid():
+            quiz = form.save(commit=False)
+            quiz.owner = request.user
+            quiz.save()
+            return redirect("myquizzes")
+    else:
+        form = QuizForm()
+    return render(request, "quiz_create.html", {"form": form})
+
+
+# List MY quizzes
+@login_required
+def MyQuizListView(request):
+    quizzes = Quiz.objects.filter(owner=request.user)
+    return render(request, "myquiz_list.html", {"quizzes": quizzes})
 
 
 # List all the quizzes
