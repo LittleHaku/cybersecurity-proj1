@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from quizzapp.views import QuizListView, LoginView, RegisterView, LogoutView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", QuizListView, name="home"),
+    path("quiz/<int:pk>/", QuizListView, name="quiz"),
+    path("login/", LoginView, name="login"),
+    path("register/", RegisterView, name="register"),
+    path("logout/", LogoutView, name="logout"),
 ]
