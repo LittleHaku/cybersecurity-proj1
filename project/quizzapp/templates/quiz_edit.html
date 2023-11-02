@@ -21,20 +21,20 @@
     </thead>
     <tbody>
         {% for question in questions %}
-        <tr>
-            <td>{{ question.text }}</td>
-            <td>
-                <ul>
-                    {% for Answer in question.Answer_set.all %}
-                    <li>{{ Answer.text }}{% if Answer.is_correct %} (Correct){% endif %}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-            <td>
-                <a href="{% url 'question_edit' question.id %}">Edit</a>
-                <a href="{% url 'question_delete' question.id %}">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>{{ question.text }}</td>
+                <td>
+                    <ul>
+                        {% for answer in question.answer_set.all %}
+                            <li>{{ answer.text }}{% if answer.is_correct %} (Correct){% endif %}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <a href="{% url 'question_edit' question.id %}">Edit</a>
+                    <a href="{% url 'question_delete' question.id %}">Delete</a>
+                </td>
+            </tr>
         {% endfor %}
     </tbody>
 </table>

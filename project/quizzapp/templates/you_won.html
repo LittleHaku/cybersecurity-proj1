@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Congratulations, you won!</h1>
+  <p>You have correctly answered all the questions in the quiz.</p>
+  <a href="{% url 'home' %}">Go back to home</a>
+{% endblock %}

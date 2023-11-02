@@ -112,6 +112,9 @@ def QuizEditView(request, pk):
             form = QuizForm(instance=quiz)
         questions = quiz.question_set.all()
         owner_name = quiz.owner.username
+        answers = {}
+        for question in questions:
+            answers[question.id] = question.answer_set.all()
         return render(
             request,
             "quiz_edit.html",
@@ -120,6 +123,7 @@ def QuizEditView(request, pk):
                 "quiz": quiz,
                 "questions": questions,
                 "owner_name": owner_name,
+                "answers": answers,
             },
         )
     else:
@@ -236,3 +240,40 @@ def AnswerEditView(request, pk):
         return redirect("question_edit", pk=question.id)
     else:
         return redirect("home")
+
+
+#### PLAY ####
+
+
+# Play Quiz View
+def QuizPlayView(request, pk):
+    quiz = Quiz.objects.get(id=pk)
+    questions = quiz.question_set.all()
+
+    if "question_id" in request.POST:
+        question = Question.objects.get(id=request.POST["question_id"])
+        selected_answer = Answer.objects.get(id=request.POST["answer_id"])
+
+        if selected_answer.is_correct:
+            # Move to the next question or end the quiz if it was the last question
+            next_question = questions.filter(id__gt=question.id).first()
+            if next_question:
+                return render(
+                    request, "quiz_play.html", {"question": next_question}
+                )
+            else:
+                return redirect("you_won")
+        else:
+            return redirect("incorrect")
+    else:
+        # This is the first question
+        first_question = questions.first()
+        return render(request, "quiz_play.html", {"question": first_question})
+
+
+def YouWonView(request):
+    return render(request, "you_won.html")
+
+
+def IncorrectView(request):
+    return render(request, "incorrect.html")
