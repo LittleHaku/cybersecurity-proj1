@@ -31,6 +31,7 @@ from quizzapp.views import (
     QuestionDeleteView,
     AnswerCreateView,
     AnswerDeleteView,
+    AnswerEditView,
 )
 
 urlpatterns = [
@@ -65,7 +66,7 @@ urlpatterns += [
 
 # Answer
 urlpatterns += [
-    # path("answer/<int:pk>/edit/", AnswerEditView, name="answer_edit"),
+    path("answer/<int:pk>/edit/", AnswerEditView, name="answer_edit"),
     path(
         "answer/create/<int:question_id>", AnswerCreateView, name="answer_add"
     ),

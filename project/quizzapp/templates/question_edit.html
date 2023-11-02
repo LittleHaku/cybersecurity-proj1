@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Edit Question</h1>
+<h1>Edit Question for quiz: {{ quiz.name }}</h1>
+<p>
+    <a href="{% url 'quiz_edit' quiz.id %}">Back to Quiz Edit Page</a>
+</p>
+
 
 <form method="POST" action="{% url 'question_edit' question.id %}">
     {% csrf_token %}
@@ -15,17 +19,20 @@
         <tr>
             <th>Answer</th>
             <th>Correct</th>
-            <th>Delete</th>
             <th>Save</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
         {% for answer in answers %}
-        <tr>
-            <td>{{ answer.text }}</td>
-            <td><input type="checkbox" {% if answer.is_correct %}checked{% endif %} disabled></td>
-            <td><a href="{% url 'answer_delete' answer.id %}"><button>Delete</button></a></td>
-            <td><button>Save</button></td>
+        <form method="POST" action="{% url 'answer_edit' answer.id %}">
+            {% csrf_token %}
+            <tr>
+                <td><input type="text" name="text" value="{{ answer.text }}"></td>
+                <td><input type="checkbox" name="is_correct" {% if answer.is_correct %}checked{% endif %}></td>
+                <td><button type="submit">Save</button></td>
+        </form>
+        <td><a href="{% url 'answer_delete' answer.id %}"><button>Delete</button></a></td>
         </tr>
         {% endfor %}
     </tbody>

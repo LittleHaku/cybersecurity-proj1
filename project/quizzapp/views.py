@@ -133,6 +133,7 @@ def QuizEditView(request, pk):
 @login_required
 def QuestionEditView(request, pk):
     question = Question.objects.get(id=pk)
+    quiz = question.quiz
     if request.user == question.quiz.owner:
         answers = question.answer_set.all()
         if request.method == "POST":
@@ -145,7 +146,12 @@ def QuestionEditView(request, pk):
         return render(
             request,
             "question_edit.html",
-            {"form": form, "question": question, "answers": answers},
+            {
+                "form": form,
+                "question": question,
+                "answers": answers,
+                "quiz": quiz,
+            },
         )
     else:
         return redirect("home")
@@ -204,7 +210,29 @@ def AnswerCreateView(request, question_id):
 def AnswerDeleteView(request, pk):
     answer = Answer.objects.get(id=pk)
     if request.user == answer.question.quiz.owner:
+        question = answer.question
         answer.delete()
-        return redirect("question_edit", pk=answer.question.id)
+
+        return redirect("question_edit", pk=question.id)
+
+    else:
+        return redirect("home")
+
+
+# Edit Answer View
+@login_required
+def AnswerEditView(request, pk):
+    answer = Answer.objects.get(id=pk)
+    question = answer.question
+
+    if request.user == answer.question.quiz.owner:
+        form = AnswerForm(request.POST, instance=answer)
+
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.owner = request.user
+            answer.save()
+
+        return redirect("question_edit", pk=question.id)
     else:
         return redirect("home")
