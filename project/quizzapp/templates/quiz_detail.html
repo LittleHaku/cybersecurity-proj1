@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ quiz.title }}</h1>
+<p>{{ quiz.description }}</p>
+<p>Number of questions: {{ quiz.question_set.count }}</p>
+<a href="/quiz/{{quiz.id}}/play"><button>Start Playing</button></a>
+{% endblock %}

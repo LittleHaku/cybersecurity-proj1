@@ -25,17 +25,47 @@ from quizzapp.views import (
     QuizCreateView,
     QuizDeleteView,
     QuizDetailView,
+    QuizEditView,
+    QuestionEditView,
+    QuestionCreateView,
+    AnswerCreateView,
+    QuestionDeleteView,
 )
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", QuizListView, name="home"),
-    path("quiz/<int:pk>/", QuizListView, name="quiz"),
     path("login/", LoginView, name="login"),
     path("register/", RegisterView, name="register"),
     path("logout/", LogoutView, name="logout"),
+]
+
+# Quiz
+urlpatterns += [
     path("myquizzes/", MyQuizListView, name="myquizzes"),
     path("quiz/create/", QuizCreateView, name="quiz_create"),
     path("quiz/<int:pk>/delete/", QuizDeleteView, name="quiz_delete"),
     path("quiz/<int:pk>/", QuizDetailView, name="quiz_detail"),
+    path("quiz/<int:pk>/edit/", QuizEditView, name="quiz_edit"),
+]
+
+# Question
+urlpatterns += [
+    path("question/<int:pk>/edit/", QuestionEditView, name="question_edit"),
+    path(
+        "question/create/<int:quiz_id>",
+        QuestionCreateView,
+        name="question_add",
+    ),
+    path(
+        "question/<int:pk>/delete/", QuestionDeleteView, name="question_delete"
+    ),
+]
+
+# Answer
+urlpatterns += [
+    # path("answer/<int:pk>/edit/", AnswerEditView, name="answer_edit"),
+    path(
+        "answer/create/<int:question_id>", AnswerCreateView, name="answer_add"
+    ),
 ]

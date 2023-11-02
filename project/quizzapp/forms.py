@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
-from .models import Quiz
+from .models import Quiz, Question, Choice
 
 User = get_user_model()
 
@@ -26,3 +26,15 @@ class QuizForm(forms.ModelForm):
     class Meta:
         model = Quiz
         fields = ["title"]
+
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ["text"]
+
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Choice
+        fields = ["text", "is_correct"]

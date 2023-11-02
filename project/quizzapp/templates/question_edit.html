@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Edit Question</h1>
+
+<h2>{{ question.text }}</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Answer</th>
+            <th>Correct</th>
+            <th>Delete</th>
+            <th>Edit/Save</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for answer in question.answers %}
+        <tr>
+            <td>{{ answer.text }}</td>
+            <td><input type="checkbox" {% if answer.is_correct %}checked{% endif %}></td>
+            <td><button>Delete</button></td>
+            <td><button>Edit/Save</button></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'answer_add' question.id %}">Add Answer</a>
+{% endblock %}
