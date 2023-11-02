@@ -47,12 +47,43 @@ The security flaws that this project has are chosen from the OWASP 2021 Top 10 L
 4. Run the server:
 
    ```bash
-   python manage.py runserver
+   make run
    ```
+
+### Other commands
+
+Reset the database:
+
+```bash
+make resetdb
+```
+
+Create a superuser:
+
+```bash
+make superuser
+```
+
+Delete all migrations:
+
+```bash
+make delete_migrations
+```
+
+Migrate:
+
+```bash
+make migrate
+```
+
+Drop the database:
+
+```bash
+make dropdb
+```
 
 ## Funcionalities
 
 This website allows the users to register and login, when a user is logged in he can access his quizzes by going to the Edit Quizzes tab, there he can create new ones, modify the existing ones or delete them, right now empty quizzes and empty questions are allowed, the purpose is to learn about cybersecurity so I'd rather focus on the security flaws than the functionality of the website.
 
 The users can see all the quizzes from the home/main page, there they can click on one and play it.
-s
