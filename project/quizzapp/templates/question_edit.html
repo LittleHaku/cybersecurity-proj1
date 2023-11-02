@@ -3,7 +3,12 @@
 {% block content %}
 <h1>Edit Question</h1>
 
-<h2>{{ question.text }}</h2>
+<form method="POST" action="{% url 'question_edit' question.id %}">
+    {% csrf_token %}
+    <label for="text">Question Text:</label>
+    <input type="text" id="text" name="text" value="{{ question.text }}"><br><br>
+    <input type="submit" value="Save">
+</form>
 
 <table>
     <thead>
@@ -11,7 +16,7 @@
             <th>Answer</th>
             <th>Correct</th>
             <th>Delete</th>
-            <th>Edit/Save</th>
+            <th>Save</th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +25,7 @@
             <td>{{ answer.text }}</td>
             <td><input type="checkbox" {% if answer.is_correct %}checked{% endif %} disabled></td>
             <td><a href="{% url 'answer_delete' answer.id %}"><button>Delete</button></a></td>
-            <td><button>Edit/Save</button></td>
+            <td><button>Save</button></td>
         </tr>
         {% endfor %}
     </tbody>

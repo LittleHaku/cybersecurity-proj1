@@ -139,7 +139,7 @@ def QuestionEditView(request, pk):
             form = QuestionForm(request.POST, instance=question)
             if form.is_valid():
                 form.save()
-                return redirect("quizowner", pk=question.quiz.id)
+                return redirect("question_edit", pk=question.id)
         else:
             form = QuestionForm(instance=question)
         return render(
