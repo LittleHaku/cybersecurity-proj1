@@ -24,3 +24,6 @@ resetdb: dropdb delete_migrations migrate
 
 createsuperuser:
 	python3 manage.py createsuperuser
+
+populate:
+	python3 manage.py populate

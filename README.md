@@ -44,10 +44,28 @@ The security flaws that this project has are chosen from the OWASP 2021 Top 10 L
    cd cybersecurity-proj1
    ```
 
-4. Run the server:
+4. Populate the database
+
+   ```bash
+   make populate
+   ```
+
+   If this fails, reset the database and try again.
+
+   ```bash
+   make resetdb
+   ```
+
+5. Run the server:
 
    ```bash
    make run
+   ```
+
+6. Optional: Create a superuser:
+
+   ```bash
+   make superuser
    ```
 
 ### Other commands
