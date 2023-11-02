@@ -98,17 +98,29 @@ def QuizDetailView(request, pk):
     return render(request, "quiz_detail.html", {"quiz": quiz})
 
 
-# Quiz Owner view, lets the owner modify the quiz
+# Edit Quiz View
 @login_required
 def QuizEditView(request, pk):
     quiz = Quiz.objects.get(id=pk)
     if request.user == quiz.owner:
+        if request.method == "POST":
+            form = QuizForm(request.POST, instance=quiz)
+            if form.is_valid():
+                form.save()
+                return redirect("quiz_edit", pk=quiz.id)
+        else:
+            form = QuizForm(instance=quiz)
         questions = quiz.question_set.all()
         owner_name = quiz.owner.username
         return render(
             request,
             "quiz_edit.html",
-            {"quiz": quiz, "questions": questions, "owner_name": owner_name},
+            {
+                "form": form,
+                "quiz": quiz,
+                "questions": questions,
+                "owner_name": owner_name,
+            },
         )
     else:
         return redirect("home")

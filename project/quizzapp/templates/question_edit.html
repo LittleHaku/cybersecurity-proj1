@@ -19,7 +19,7 @@
         <tr>
             <td>{{ answer.text }}</td>
             <td><input type="checkbox" {% if answer.is_correct %}checked{% endif %} disabled></td>
-            <td><button>Delete</button></td>
+            <td><a href="{% url 'answer_delete' answer.id %}"><button>Delete</button></a></td>
             <td><button>Edit/Save</button></td>
         </tr>
         {% endfor %}

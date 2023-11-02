@@ -3,6 +3,13 @@
 {% block content %}
 <h1>Quiz Owner Page</h1>
 
+<form method="POST" action="{% url 'quiz_edit' quiz.id %}">
+    {% csrf_token %}
+    <label for="title">Quiz Title:</label>
+    <input type="text" id="title" name="title" value="{{ quiz.title }}"><br><br>
+    <input type="submit" value="Save">
+</form>
+
 <h2>Questions and Answers</h2>
 <table>
     <thead>
