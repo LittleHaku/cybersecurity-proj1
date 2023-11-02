@@ -15,7 +15,7 @@
     <tbody>
         {% for quiz in quizzes %}
         <tr>
-            <td><a href="{% url 'quiz_detail' quiz.id %}"></a>{{ quiz.title }}</a></td>
+            <td><a href="{% url 'quiz_detail' quiz.id %}">{{ quiz.title }}</a></td>
             <td>{{ quiz.created_at }}</td>
             <td>{{ quiz.owner }}</td>
             <td><a href="{% url 'quiz_edit' quiz.id %}">Edit</a></td>
