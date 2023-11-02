@@ -15,10 +15,10 @@
         </tr>
     </thead>
     <tbody>
-        {% for answer in question.answers %}
+        {% for answer in answers %}
         <tr>
             <td>{{ answer.text }}</td>
-            <td><input type="checkbox" {% if answer.is_correct %}checked{% endif %}></td>
+            <td><input type="checkbox" {% if answer.is_correct %}checked{% endif %} disabled></td>
             <td><button>Delete</button></td>
             <td><button>Edit/Save</button></td>
         </tr>

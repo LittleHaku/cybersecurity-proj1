@@ -8,7 +8,7 @@
     <thead>
         <tr>
             <th>Question</th>
-            <th>Choices</th>
+            <th>Answers</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -18,8 +18,8 @@
             <td>{{ question.text }}</td>
             <td>
                 <ul>
-                    {% for choice in question.choice_set.all %}
-                    <li>{{ choice.text }}{% if choice.is_correct %} (Correct){% endif %}</li>
+                    {% for Answer in question.Answer_set.all %}
+                    <li>{{ Answer.text }}{% if Answer.is_correct %} (Correct){% endif %}</li>
                     {% endfor %}
                 </ul>
             </td>

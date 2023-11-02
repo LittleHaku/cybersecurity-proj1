@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
-from .models import Quiz, Question, Choice
+from .models import Quiz, Question, Answer
 from quizzapp.models import CustomUser
 from django.contrib.auth import get_user_model
 from .forms import (
@@ -122,7 +122,7 @@ def QuizEditView(request, pk):
 def QuestionEditView(request, pk):
     question = Question.objects.get(id=pk)
     if request.user == question.quiz.owner:
-        answers = question.choice_set.all()
+        answers = question.answer_set.all()
         if request.method == "POST":
             form = QuestionForm(request.POST, instance=question)
             if form.is_valid():
@@ -185,3 +185,14 @@ def AnswerCreateView(request, question_id):
     else:
         form = AnswerForm()
     return render(request, "answer_add.html", {"form": form})
+
+
+# Delete Answer View
+@login_required
+def AnswerDeleteView(request, pk):
+    answer = Answer.objects.get(id=pk)
+    if request.user == answer.question.quiz.owner:
+        answer.delete()
+        return redirect("question_edit", pk=answer.question.id)
+    else:
+        return redirect("home")
