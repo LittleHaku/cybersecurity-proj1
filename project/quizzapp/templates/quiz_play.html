@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{ question.text }}</h1>
-<form method="POST">
-    {% csrf_token %}
-    {% for answer in question.answer_set.all %}
-    <div>
-        <input type="radio" id="answer{{ answer.id }}" name="answer_id" value="{{ answer.id }}">
-        <label for="answer{{ answer.id }}">{{ answer.text }}</label>
-    </div>
-    {% endfor %}
-    <input type="hidden" name="question_id" value="{{ question.id }}">
-    <button type="submit">Submit</button>
-</form>
+<div class="container">
+    <h1 class="text-center">{{ question.text }}</h1>
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        {% for answer in question.answer_set.all %}
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="answer{{ answer.id }}" name="answer_id" value="{{ answer.id }}">
+            <label class="form-check-label" for="answer{{ answer.id }}">{{ answer.text }}</label>
+        </div>
+        {% endfor %}
+        <input type="hidden" name="question_id" value="{{ question.id }}">
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+</div>
 {% endblock %}

@@ -1,42 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Edit Question for quiz: {{ quiz.name }}</h1>
-<p>
-    <a href="{% url 'quiz_edit' quiz.id %}">Back to Quiz Edit Page</a>
-</p>
+<div class="container">
+    <h1 class="text-center">Edit Question for quiz: {{ quiz.name }}</h1>
+    <p>
+        <a href="{% url 'quiz_edit' quiz.id %}" class="btn btn-secondary mb-3">Back to Quiz Edit Page</a>
+    </p>
 
+    <form method="POST" action="{% url 'question_edit' question.id %}" class="mb-4">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="text">Question Text:</label>
+            <input type="text" id="text" name="text" value="{{ question.text }}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
 
-<form method="POST" action="{% url 'question_edit' question.id %}">
-    {% csrf_token %}
-    <label for="text">Question Text:</label>
-    <input type="text" id="text" name="text" value="{{ question.text }}"><br><br>
-    <input type="submit" value="Save">
-</form>
-
-<table>
-    <thead>
-        <tr>
-            <th>Answer</th>
-            <th>Correct</th>
-            <th>Save</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for answer in answers %}
-        <form method="POST" action="{% url 'answer_edit' answer.id %}">
-            {% csrf_token %}
+    <table class="table">
+        <thead>
             <tr>
-                <td><input type="text" name="text" value="{{ answer.text }}"></td>
-                <td><input type="checkbox" name="is_correct" {% if answer.is_correct %}checked{% endif %}></td>
-                <td><button type="submit">Save</button></td>
-        </form>
-        <td><a href="{% url 'answer_delete' answer.id %}"><button>Delete</button></a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                <th>Answer</th>
+                <th>Correct</th>
+                <th>Save</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for answer in answers %}
+            <form method="POST" action="{% url 'answer_edit' answer.id %}">
+                {% csrf_token %}
+                <tr>
+                    <td><input type="text" name="text" value="{{ answer.text }}" class="form-control"></td>
+                    <td><input type="checkbox" name="is_correct" {% if answer.is_correct %}checked{% endif %}></td>
+                    <td><button type="submit" class="btn btn-primary">Save</button></td>
+            </form>
+            <td><a href="{% url 'answer_delete' answer.id %}" class="btn btn-danger">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-<a href="{% url 'answer_add' question.id %}">Add Answer</a>
+    <a href="{% url 'answer_add' question.id %}" class="btn btn-success">Add Answer</a>
+</div>
 {% endblock %}

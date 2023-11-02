@@ -1,42 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>My Quizzes</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Created</th>
-            <th>Owner</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for quiz in quizzes %}
-        <tr>
-            <td><a href="{% url 'quiz_detail' quiz.id %}">{{ quiz.title }}</a></td>
-            <td>{{ quiz.created_at }}</td>
-            <td>{{ quiz.owner }}</td>
-            <td>
-                <form action="{% url 'quiz_edit' quiz.id %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit">Edit</button>
-                </form>
-            </td>
-            <td>
-                <form action="{% url 'quiz_delete' quiz.id %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">You haven't created any quizzes yet.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<a href="{% url 'quiz_create' %}">Create New Quiz</a>
+<h1 class="text-center">My Quizzes</h1>
+<div class="container">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Title</th>
+                <th>Owner</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz in quizzes %}
+            <tr>
+                <td><a href="{% url 'quiz_detail' quiz.id %}">{{ quiz.title }}</a></td>
+                <td>{{ quiz.owner }}</td>
+                <td>
+                    <form action="{% url 'quiz_edit' quiz.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{% url 'quiz_delete' quiz.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">You haven't created any quizzes yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'quiz_create' %}" class="btn btn-success">Create New Quiz</a>
+</div>
 {% endblock %}

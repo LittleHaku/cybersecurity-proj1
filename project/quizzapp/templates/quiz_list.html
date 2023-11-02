@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Quiz List</h1>
-    <ul>
+<div class="container">
+    <h1 class="text-center">Quiz List</h1>
+    <ul class="list-group mt-4">
         {% for quiz in quizzes %}
-            <li>
+            <li class="list-group-item">
                 <a href="{% url 'quiz_detail' quiz.id %}">{{ quiz.title }}</a>
             </li>
         {% empty %}
-            <li>No quizzes available.</li>
+            <li class="list-group-item">No quizzes available.</li>
         {% endfor %}
     </ul>
+</div>
 {% endblock %}
