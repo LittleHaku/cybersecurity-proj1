@@ -1,38 +1,46 @@
-<!-- FILEPATH: /home/ivan/uni/cybersecurity/cybersecurity-proj1/project/quizzapp/templates/base.html -->
-
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>Quiz App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="d-flex flex-column justify-content-center align-items-center text-center">
     <header>
-        <nav>
-
-            <a href="{% url 'home' %}">Home</a>
-            {% if user.is_authenticated %}
-            <a href="{% url 'myquizzes' %}">Edit Quizzes</a>
-            {% endif %}
+        <nav class="navbar navbar-light bg-light justify-content-center flex-column">
 
             {% if user.is_authenticated %}
-            <p>Welcome, {{ user.username }}!</p>
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Log out</button>
-            </form>
+            <div class="d-flex flex-column align-items-center">
+                <p class="navbar-text m-1">Welcome, {{ user.username }}!</p>
+                <form class="form-inline m-1" action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary" type="submit">Log out</button>
+                </form>
+            </div>
             {% else %}
-            <a href="{% url 'login' %}">Log in</a>
-            <a href="{% url 'register' %}">Register</a>
+            <div class="d-flex align-items-center">
+                <a class="btn btn-success m-1" href="{% url 'login' %}">Log in</a>
+                <a class="btn btn-success m-1" href="{% url 'register' %}">Register</a>
+            </div>
             {% endif %}
+
+            <div class="d-flex align-items-center">
+                <a class="btn btn-primary m-1" href="{% url 'home' %}">Home</a>
+                {% if user.is_authenticated %}
+                <a class="btn btn-primary m-1" href="{% url 'myquizzes' %}">Edit Quizzes</a>
+                {% endif %}
+            </div>
 
         </nav>
     </header>
-    <main>
+    <main class="d-flex flex-column justify-content-center align-items-center text-center">
         {% block content %}
         {% endblock %}
     </main>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>
