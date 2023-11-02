@@ -21,23 +21,33 @@
     </thead>
     <tbody>
         {% for question in questions %}
-            <tr>
-                <td>{{ question.text }}</td>
-                <td>
-                    <ul>
-                        {% for answer in question.answer_set.all %}
-                            <li>{{ answer.text }}{% if answer.is_correct %} (Correct){% endif %}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-                <td>
-                    <a href="{% url 'question_edit' question.id %}">Edit</a>
-                    <a href="{% url 'question_delete' question.id %}">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>{{ question.text }}</td>
+            <td>
+                <ul>
+                    {% for answer in question.answer_set.all %}
+                    <li>{{ answer.text }}{% if answer.is_correct %} (Correct){% endif %}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <form action="{% url 'question_edit' question.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">Edit</button>
+                </form>
+            </td>
+            <td>
+                <form action="{% url 'question_delete' question.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<a href="{% url 'question_add' quiz.id %}">Add Question</a>
+<form action="{% url 'question_add' quiz.id %}">
+    <button type="submit">Add Question</button>
+</form>
 {% endblock %}
