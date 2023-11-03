@@ -12,6 +12,10 @@ The security flaws that this project has are chosen from the OWASP 2021 Top 10 L
 
 `A03:2021-Injection` - SQL Injection is a vulnerability that allows an attacker to execute SQL code in the server. This can be fixed by using parameterized queries.
 
+I have made this flaw by hardcoding a SQL query in the code in the Quiz Edit, since with Django the default is sqlite and it doesn't allow to execute multiple queries at once it is not possible to drop the database, but for example it is possible to type `ivan' WHERE id = 1 or 1=1 --` and now all the quizzes will have the name ivan.
+
+This can be fized by using parameterized queries as the code commented below the query is.
+
 ### Broken Access Control
 
 `A01:2021-Broken Access Control` - Broken Access Control is a vulnerability that allows an attacker to access resources that they should not have access to. This can be fixed by implementing proper access control.
