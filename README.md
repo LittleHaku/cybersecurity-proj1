@@ -14,7 +14,7 @@ The security flaws that this project has are chosen from the OWASP 2021 Top 10 L
 
 I have made this flaw by hardcoding a SQL query in the code in the Quiz Edit, since with Django the default is sqlite and it doesn't allow to execute multiple queries at once it is not possible to drop the database, but for example it is possible to type `ivan' WHERE id = 1 or 1=1 --` and now all the quizzes will have the name ivan.
 
-This can be fized by using parameterized queries as the code commented below the query is.
+This can be fixed by using parameterized queries as the code commented below the query is.
 
 ### Broken Access Control
 
