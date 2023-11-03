@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout
 from .models import Quiz, Question, Answer
 from quizzapp.models import CustomUser
 from django.contrib.auth import get_user_model
+from django.db import connection
 from .forms import (
     CustomUserCreationForm,
     CustomAuthenticationForm,
@@ -12,6 +13,7 @@ from .forms import (
     AnswerForm,
     QuestionForm,
 )
+from datetime import datetime
 
 
 # Create your views here.
@@ -68,6 +70,19 @@ def QuizDeleteView(request, pk):
 @login_required
 def QuizCreateView(request):
     if request.method == "POST":
+        quiz_title = request.POST.get('title')
+        created_at = datetime.now()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                f"INSERT INTO quizzapp_quiz (title, owner_id, created_at) VALUES ('{quiz_title}', {request.user.id}, '{created_at}')")
+        return redirect("myquizzes")
+    else:
+        form = QuizForm()
+    return render(request, "quiz_create.html", {"form": form})
+
+
+""" def QuizCreateView(request):
+    if request.method == "POST":
         form = QuizForm(request.POST)
         if form.is_valid():
             quiz = form.save(commit=False)
@@ -76,7 +91,7 @@ def QuizCreateView(request):
             return redirect("myquizzes")
     else:
         form = QuizForm()
-    return render(request, "quiz_create.html", {"form": form})
+    return render(request, "quiz_create.html", {"form": form}) """
 
 
 # List MY quizzes
