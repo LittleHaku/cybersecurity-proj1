@@ -34,7 +34,8 @@ from quizzapp.views import (
     AnswerEditView,
     QuizPlayView,
     IncorrectView,
-    YouWonView
+    YouWonView,
+    CheatingView
 )
 
 urlpatterns = [
@@ -82,4 +83,5 @@ urlpatterns += [
     path("play/<int:pk>/", QuizPlayView, name="quiz_play"),
     path("incorrect/", IncorrectView, name="incorrect"),
     path("youwon/", YouWonView, name="you_won"),
+    path("cheating/", CheatingView, name="cheating")
 ]

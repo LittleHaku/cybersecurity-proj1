@@ -95,6 +95,8 @@ def QuizListView(request):
 # Detail Quiz, shows the name, the number of questions and a button to start the quiz
 def QuizDetailView(request, pk):
     quiz = Quiz.objects.get(id=pk)
+    request.session["lost"] = False
+    request.session["quiz_id"] = pk
     return render(request, "quiz_detail.html", {"quiz": quiz})
 
 
@@ -247,6 +249,13 @@ def AnswerEditView(request, pk):
 
 # Play Quiz View
 def QuizPlayView(request, pk):
+
+    if request.session["lost"]:
+        return redirect("cheating")
+
+    if request.session["quiz_id"] != pk:
+        return redirect("cheating")
+
     quiz = Quiz.objects.get(id=pk)
     questions = quiz.question_set.all()
 
@@ -271,9 +280,14 @@ def QuizPlayView(request, pk):
         return render(request, "quiz_play.html", {"question": first_question})
 
 
+def CheatingView(request):
+    return render(request, "cheating.html")
+
+
 def YouWonView(request):
     return render(request, "you_won.html")
 
 
 def IncorrectView(request):
+    request.session["lost"] = True
     return render(request, "incorrect.html")

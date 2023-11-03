@@ -104,4 +104,6 @@ make dropdb
 
 This website allows the users to register and login, when a user is logged in he can access his quizzes by going to the Edit Quizzes tab, there he can create new ones, modify the existing ones or delete them, right now empty quizzes and empty questions are allowed, the purpose is to learn about cybersecurity so I'd rather focus on the security flaws than the functionality of the website.
 
+As with the example seen in the course one could fail a question, go back and change the answer, I fixed it but I didn't consider it a flaw of the OWASP Top 10 List since it is not a security flaw, but more a design one.
+
 The users can see all the quizzes from the home/main page, there they can click on one and play it.
