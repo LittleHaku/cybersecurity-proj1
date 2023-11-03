@@ -70,19 +70,6 @@ def QuizDeleteView(request, pk):
 @login_required
 def QuizCreateView(request):
     if request.method == "POST":
-        quiz_title = request.POST.get('title')
-        created_at = datetime.now()
-        with connection.cursor() as cursor:
-            cursor.execute(
-                f"INSERT INTO quizzapp_quiz (title, owner_id, created_at) VALUES ('{quiz_title}', {request.user.id}, '{created_at}')")
-        return redirect("myquizzes")
-    else:
-        form = QuizForm()
-    return render(request, "quiz_create.html", {"form": form})
-
-
-""" def QuizCreateView(request):
-    if request.method == "POST":
         form = QuizForm(request.POST)
         if form.is_valid():
             quiz = form.save(commit=False)
@@ -91,7 +78,7 @@ def QuizCreateView(request):
             return redirect("myquizzes")
     else:
         form = QuizForm()
-    return render(request, "quiz_create.html", {"form": form}) """
+    return render(request, "quiz_create.html", {"form": form})
 
 
 # List MY quizzes
@@ -123,8 +110,13 @@ def QuizEditView(request, pk):
         if request.method == "POST":
             form = QuizForm(request.POST, instance=quiz)
             if form.is_valid():
-                form.save()
+                new_title = request.POST.get('title')
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        f"UPDATE quizzapp_quiz SET title = '{new_title}' WHERE id = {pk}")
                 return redirect("quiz_edit", pk=quiz.id)
+                """ form.save()
+                return redirect("quiz_edit", pk=quiz.id) """
         else:
             form = QuizForm(instance=quiz)
         questions = quiz.question_set.all()
