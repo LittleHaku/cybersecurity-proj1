@@ -58,11 +58,11 @@ def LogoutView(request):
 
 
 # Quiz delete
-@login_required
+# @login_required
 def QuizDeleteView(request, pk):
     quiz = Quiz.objects.get(id=pk)
-    if request.user == quiz.owner:
-        quiz.delete()
+    # if request.user == quiz.owner:
+    quiz.delete()
     return redirect("myquizzes")
 
 

@@ -3,14 +3,27 @@
 {% block content %}
 <div class="container">
     <h1 class="text-center">Quiz List</h1>
-    <ul class="list-group mt-4">
-        {% for quiz in quizzes %}
-            <li class="list-group-item">
-                <a href="{% url 'quiz_detail' quiz.id %}">{{ quiz.title }}</a>
-            </li>
-        {% empty %}
-            <li class="list-group-item">No quizzes available.</li>
-        {% endfor %}
-    </ul>
+    <table class="table mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Owner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz in quizzes %}
+                <tr>
+                    <td>{{ quiz.id }}</td>
+                    <td><a href="{% url 'quiz_detail' quiz.id %}">{{ quiz.title }}</a></td>
+                    <td>{{ quiz.owner }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No quizzes available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

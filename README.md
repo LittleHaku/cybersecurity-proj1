@@ -20,6 +20,8 @@ This can be fixed by using parameterized queries as the code commented below the
 
 `A01:2021-Broken Access Control` - Broken Access Control is a vulnerability that allows an attacker to access resources that they should not have access to. This can be fixed by implementing proper access control.
 
+To make recreate this flaw I have removed the `@login_required` decorator from the QuizDeleteView and also removed the owner check, this allows anyone to delete any quiz by going to the url `/quiz/<id>/delete`. For the sake of testing this I added to the main quiz list the IDs and the owner of the quiz, in a real scenario this would not be the case.
+
 ### Cryptographic Failures
 
 `A02:2021-Cryptographic Failures` - Cryptographic Failures occurs when either cryptography is used incorrectly or the cryptography is not used at all. This can be fixed by using cryptography correctly.
