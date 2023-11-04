@@ -45,7 +45,7 @@ This can be fixed by using parameterized queries as the code commented below the
 3. Enter the project directory:
 
    ```bash
-   cd cybersecurity-proj1
+   cd cybersecurity-proj1/project
    ```
 
 4. Populate the database
