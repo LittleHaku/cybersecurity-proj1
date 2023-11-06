@@ -1,21 +1,29 @@
-from django.shortcuts import render, redirect
+from urllib.parse import urlparse
+import re
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from django.http import JsonResponse, HttpResponseForbidden
+from datetime import datetime
+
+import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, logout
-from .models import Quiz, Question, Answer
-from quizzapp.models import CustomUser
-from django.contrib.auth import get_user_model
+from django.contrib.auth import login, logout, get_user_model
 from django.db import connection
-from .forms import (
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.admin.views.decorators import staff_member_required
+
+from quizzapp.forms import (
     CustomUserCreationForm,
     CustomAuthenticationForm,
     QuizForm,
     AnswerForm,
     QuestionForm,
 )
-from datetime import datetime
-from django.views.decorators.csrf import csrf_exempt
-
+from quizzapp.models import CustomUser, Quiz, Question, Answer
 # Create your views here.
 
 
@@ -95,14 +103,37 @@ def QuizListView(request):
 
 
 # Detail Quiz, shows the name, the number of questions and a button to start the quiz
+
+
 def QuizDetailView(request, pk):
     quiz = Quiz.objects.get(id=pk)
+    url = request.GET.get('url')
+
+    pattern = re.compile(r'^/details/\d+$')
+
+    # no details are going to be fetched, it is just to show the SSRF vulnerability
+    if url:
+        parsed_url = urlparse(url)
+        """ if pattern.match(parsed_url.path): """
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                quiz_details = response.text
+                return render(request, 'quiz_detail.html', {'quiz': quiz, 'details': quiz_details})
+            else:
+                pass
+        except requests.exceptions.RequestException as e:
+            print(e)
+            pass
+        """ else:
+            return redirect('cheating') """
+
     request.session["lost"] = False
     request.session["quiz_id"] = pk
     return render(request, "quiz_detail.html", {"quiz": quiz})
-
-
 # Edit Quiz View
+
+
 @login_required
 def QuizEditView(request, pk):
     quiz = Quiz.objects.get(id=pk)
@@ -309,3 +340,33 @@ def CSRFDemoView(request):
     quiz_id = quizzes.first().id if quizzes.exists() else None
     quiz_name = quizzes.first().title if quizzes.exists() else None
     return render(request, "csrf_demo.html", {"quiz_id": quiz_id, "quiz_name": quiz_name})
+
+
+#### FAKE API ####
+
+
+class FakePasswordsApiView(APIView):
+
+    def get(self, request):
+
+        data = {
+            "user1": "password1",
+            "user2": "password2"
+        }
+        return JsonResponse(data)
+
+
+class FakeDetailsApiView(APIView):
+
+    def get(self, request, pk):
+
+        topics = {
+            1: "common knowledge",
+            2: "history",
+            3: "science"
+        }
+
+        data = {
+            "topic": topics.get(int(pk), "not found"),
+        }
+        return JsonResponse(data)

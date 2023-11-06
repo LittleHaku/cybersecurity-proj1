@@ -20,7 +20,7 @@ This can be fixed by using parameterized queries as the code commented below the
 
 `A01:2021-Broken Access Control` - Broken Access Control is a vulnerability that allows an attacker to access resources that they should not have access to. This can be fixed by implementing proper access control.
 
-To make recreate this flaw I have removed the `@login_required` decorator from the QuizDeleteView and also removed the owner check, this allows anyone to delete any quiz by going to the url `/quiz/<id>/delete`. For the sake of testing this I added to the main quiz list the IDs and the owner of the quiz, in a real scenario this would not be the case.
+To make this flaw I have removed the `@login_required` decorator from the QuizDeleteView and also removed the owner check, this allows anyone to delete any quiz by going to the url `/quiz/<id>/delete`. For the sake of testing this I added to the main quiz list the IDs and the owner of the quiz, in a real scenario this would not be the case.
 
 ### Cryptographic Failures
 
@@ -29,6 +29,8 @@ To make recreate this flaw I have removed the `@login_required` decorator from t
 ### Server-Side Request Forgery
 
 `A10:2021-Server-Side Request Forgery` - Server-Side Request Forgery is a vulnerability that allows an attacker to make requests from the server. This can be fixed by validating the requests.
+
+To recreate this flaw, I added a URL parameter in the Quiz Detail View, this means that if you go to `/quiz/<id>?url=<url>` it will make a request to that URL and return the response, this can be used to make requests to internal services that are not supposed to be exposed to the internet. `http://localhost:8000/quiz/1/?url=https://jsonplaceholder.typicode.com/posts/1` is an example of this or `http://localhost:8000/quiz/1/?url=http://localhost:8000/passwords/`, the proper usage would be something like `http://localhost:8000/quiz/1/?url=http://localhost:8000/details/1`, so to fix this flaw we would have to validate the URL and make sure it is only accessing what it is supposed to access.
 
 ### Cross-Site Request Forgery
 

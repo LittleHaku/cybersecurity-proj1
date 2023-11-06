@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <h1 class="text-center">{{ quiz.title }}</h1>
-    <p class="mt-4">{{ quiz.description }}</p>
+    <p class="mt-4">{{ details }}</p>
     <p>Number of questions: {{ quiz.question_set.count }}</p>
     <a href="{% url 'quiz_play' quiz.id %}" class="btn btn-primary mt-3">Start Playing</a>
 </div>

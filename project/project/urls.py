@@ -36,7 +36,9 @@ from quizzapp.views import (
     IncorrectView,
     YouWonView,
     CheatingView,
-    CSRFDemoView
+    CSRFDemoView,
+    FakePasswordsApiView,
+    FakeDetailsApiView,
 )
 
 urlpatterns = [
@@ -91,4 +93,11 @@ urlpatterns += [
 
 urlpatterns += [
     path("csrf/", CSRFDemoView, name="csrf_demo")
+]
+
+# FAKE API
+
+urlpatterns += [
+    path('passwords/', FakePasswordsApiView.as_view(), name='fake_api'),
+    path('details/<int:pk>', FakeDetailsApiView.as_view(), name='fake_details_api')
 ]
