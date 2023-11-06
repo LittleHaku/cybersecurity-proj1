@@ -34,6 +34,8 @@ To make recreate this flaw I have removed the `@login_required` decorator from t
 
 `Cross-Site Request Forgery` - Cross-Site Request Forgery is a vulnerability that allows an attacker to make requests like if he was the user. This can be fixed by using CSRF tokens.
 
+To implement this flaw I simply commented out the `{% csrf_token %}` in the `question_add.html`, this allows an attacker to make requests like if he was the user.
+
 ## Installation
 
 1. Ensure you have Python and Django installed.
