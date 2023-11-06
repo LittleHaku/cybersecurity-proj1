@@ -34,7 +34,9 @@ To make recreate this flaw I have removed the `@login_required` decorator from t
 
 `Cross-Site Request Forgery` - Cross-Site Request Forgery is a vulnerability that allows an attacker to make requests like if he was the user. This can be fixed by using CSRF tokens.
 
-To implement this flaw I simply commented out the `{% csrf_token %}` in the `question_add.html`, this allows an attacker to make requests like if he was the user.
+To implement this flaw I simply commented out the `{% csrf_token %}` in the `question_add.html` and added the `@csrf_exempt` decorator in the QuestionCreateView, this allows an attacker to make requests like if he was the user.
+
+To test it out I created a new page called CSRF Demo which is only visible if you are logged in and there is a button that will make a POST request to the QuestionCreateView and create it in one of the quizzes, this attack would be usually done with a hidden iframe or an image, but the button is easier to test and the goals is to learn about the flaws and how to fix them.
 
 ## Installation
 

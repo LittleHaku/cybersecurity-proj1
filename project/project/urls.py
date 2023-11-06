@@ -35,7 +35,8 @@ from quizzapp.views import (
     QuizPlayView,
     IncorrectView,
     YouWonView,
-    CheatingView
+    CheatingView,
+    CSRFDemoView
 )
 
 urlpatterns = [
@@ -84,4 +85,10 @@ urlpatterns += [
     path("incorrect/", IncorrectView, name="incorrect"),
     path("youwon/", YouWonView, name="you_won"),
     path("cheating/", CheatingView, name="cheating")
+]
+
+# CSRF
+
+urlpatterns += [
+    path("csrf/", CSRFDemoView, name="csrf_demo")
 ]
