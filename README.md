@@ -22,15 +22,21 @@ This can be fixed by using parameterized queries as the code commented below the
 
 To make this flaw I have removed the `@login_required` decorator from the QuizDeleteView and also removed the owner check, this allows anyone to delete any quiz by going to the url `/quiz/<id>/delete`. For the sake of testing this I added to the main quiz list the IDs and the owner of the quiz, in a real scenario this would not be the case.
 
-### Cryptographic Failures
-
-`A02:2021-Cryptographic Failures` - Cryptographic Failures occurs when either cryptography is used incorrectly or the cryptography is not used at all. This can be fixed by using cryptography correctly.
-
 ### Server-Side Request Forgery
 
 `A10:2021-Server-Side Request Forgery` - Server-Side Request Forgery is a vulnerability that allows an attacker to make requests from the server. This can be fixed by validating the requests.
 
 To recreate this flaw, I added a URL parameter in the Quiz Detail View, this means that if you go to `/quiz/<id>?url=<url>` it will make a request to that URL and return the response, this can be used to make requests to internal services that are not supposed to be exposed to the internet. `http://localhost:8000/quiz/1/?url=https://jsonplaceholder.typicode.com/posts/1` is an example of this or `http://localhost:8000/quiz/1/?url=http://localhost:8000/passwords/`, the proper usage would be something like `http://localhost:8000/quiz/1/?url=http://localhost:8000/details/1`, so to fix this flaw we would have to validate the URL and make sure it is only accessing what it is supposed to access.
+
+### Security Misconfiguration
+
+`A05:2021-Security Misconfiguration` - Security Misconfiguration is a vulnerability that allows an attacker to exploit a misconfiguration in the server, in a Django project this could be for example the debug mode to true, since if we then enter a URL that doesn't exist we will leak all the URLs in the project, such as the `/passwords/` one (implemented only for testing SSRF).
+
+Another potential misconfiguration is setting a weak secret key or storing it in a env file that is not in the .gitignore, this would allow an attacker to impersonate the server.
+
+Lastly another misconfiguration could be not setting the allowed hosts, this would allow an attacker to make requests to the server from any domain, which could be used to make HTTP host header attacks.
+
+All of these can be fixed by taking some time to configure the server properly.
 
 ### Cross-Site Request Forgery
 

@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from dotenv import load_dotenv
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,14 +22,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
+load_dotenv()
+
+
 SECRET_KEY = (
-    "django-insecure-f$88t_$033op-oc6i*q@0hi$$9a25md8p_j5dz6oe%sse6h%@e"
+    "(qk-120up+v)6z9gov^$m)u)lz-k-)e%@o*ye#-a84n!p!qtqi"
 )
+# FIX: right now i dont have .env in the .gitignore to be able to show it
+# SECRET_KEY = os.getenv('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# FIX:
+# DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+# FIX:
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -123,7 +136,6 @@ USE_TZ = True
 
 # Use this instead of user
 AUTH_USER_MODEL = 'quizzapp.CustomUser'
-
 
 
 # Static files (CSS, JavaScript, Images)
