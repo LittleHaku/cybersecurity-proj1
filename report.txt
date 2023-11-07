@@ -1,0 +1,66 @@
+LINK: https://github.com/LittleHaku/cybersecurity-proj1
+
+# Installation Instructions:
+
+This instruction can be also found in the GitHub's readme with code snippets
+
+1. Clone the repository:
+git clone https://github.com/LittleHaku/cybersecurity-proj1
+
+2. Navigate into the project directory:
+cd cybersecurity-proj1
+
+3. Install the required packages:
+pip install -r requirements.txt
+
+4. Enter the directory:
+cd project
+
+5. Populate the database
+make populate
+
+6. If this fails, reset the database and try again.
+make resetdb
+
+7. Run the server:
+make run
+
+Optional: Create a superuser:
+make superuser
+
+
+Flaw 1: SQL Injection
+
+Link:
+https://github.com/LittleHaku/cybersecurity-proj1/blob/main/project/quizzapp/views.py#L147
+
+SQL Injection is a type of security vulnerability that allows an attacker to interfere with the application database by injecting SQL commands into the input fields of the application that should not be allowed. This can allow the attacker to modify, view or delete the data [1].
+
+A successful SQL injection attack can result in unauthorized access to sensitive data, such as passwords, credit card details, and personal user information. They can also be used to modify the database and for example grant themselves with admin privileges; or even delete the database entirely.
+
+In this project, the SQL injection vulnerability is present in the QuizEditView. The flaw is that the code uses string formatting to create the SQL query. This means that whatever is written in the "new_title" field will get inserted into the query without any type of sanitization. So if the attacker inputs something like
+
+ivan' WHERE id = 1 or 1=1 --
+
+The query will become:
+
+UPDATE quizzapp_quiz SET title = 'ivan' WHERE id = 1 or 1=1 --
+
+The -- at the end means that everything after it will be commented so the rest of the query will be ignored, with this the attacker will change all the titles of the quizzes to "ivan", even the ones that he doesn't own. In this case since with Django the default database is SQLite which does not allow to execute multiple queries at once, the attacker can't do a DROP because the UPDATE will be the only query executed, but if we were using another DBMS the damage could be even greater.
+
+To fix it we simply have to use the Django ORM to update the title of the quiz, this way the input will be sanitized and the attacker won't be able to execute any SQL commands (the code with the ORM just below).
+
+Flaw 2: Broken Access Control
+
+Link:
+https://github.com/LittleHaku/cybersecurity-proj1/blob/main/project/quizzapp/views.py#L69
+
+Broken Access Control is a security vulnerability that occurs when a web application fails to properly implement an access control policy, allowing users to bypass the limitations set for the access. this flaw can lead to unauthorized access to sensitive data, such as personal user information, credit card details, and passwords [2].
+
+To recreate this flaw I modified the QuizDeleteView, first of all I commented out the lines that check if the user is the owner of the quiz, this way any user can delete any quiz even if they don't own the quiz. Then I commented out the @login_required decorator, this way the attacker does not even need to be logged in to delete a quiz. This will lead to the attacker being able to delete any quiz in the database by just accessing (assuming that the server is running on localhost:8000): http://localhost:8000/quiz/<id>/delete. To be able to check the IDs of the quizzes quickly I added to the main quiz list the ID and the owner of the quiz, this way the attacker can check the IDs of the quizzes and delete them, of course this wouldn't be done in a real situation but it's just for the sake of showing the vulnerability.
+
+
+References:
+
+[1]: https://portswigger.net/web-security/sql-injection
+[2]: https://threat.media/definition/what-is-broken-access-control/
