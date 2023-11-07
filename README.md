@@ -48,7 +48,7 @@ To test it out I created a new page called CSRF Demo which is only visible if yo
 
 ## Installation
 
-1. Ensure you have Python and Django installed.
+1. Ensure you have Python installed.
 
 2. Clone this repository:
 
@@ -56,13 +56,25 @@ To test it out I created a new page called CSRF Demo which is only visible if yo
    git clone https://github.com/LittleHaku/cybersecurity-proj1
     ```
 
-3. Enter the project directory:
+3. Enter the directory:
 
    ```bash
-   cd cybersecurity-proj1/project
+   cd cybersecurity-proj1
    ```
 
-4. Populate the database
+4. Install the dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. Enter the directory:
+
+   ```bash
+   cd project
+   ```
+
+6. Populate the database
 
    ```bash
    make populate
@@ -74,13 +86,13 @@ To test it out I created a new page called CSRF Demo which is only visible if yo
    make resetdb
    ```
 
-5. Run the server:
+7. Run the server:
 
    ```bash
    make run
    ```
 
-6. Optional: Create a superuser:
+8. Optional: Create a superuser:
 
    ```bash
    make superuser
