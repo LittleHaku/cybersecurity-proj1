@@ -3,8 +3,9 @@
 ## IMPORTANT
 
 I forgot to add this in the essay, the users are:
-user1:password1
-user2:password2
+
+- user1:password1
+- user2:password2
 
 This project has been created for the Cybersecurity MOOC Project I. The webpage will be similar to one exercise done during the Securing Software course where we had a webpage with quizzes and topics.
 
