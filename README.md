@@ -1,4 +1,4 @@
-# cybersecurity-proj1
+# Cybersecurity Project 1
 
 ## IMPORTANT
 
